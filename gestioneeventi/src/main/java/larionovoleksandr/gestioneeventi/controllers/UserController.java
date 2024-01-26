@@ -1,10 +1,12 @@
 package larionovoleksandr.gestioneeventi.controllers;
 
+import larionovoleksandr.gestioneeventi.entities.Event;
 import larionovoleksandr.gestioneeventi.entities.User;
 import larionovoleksandr.gestioneeventi.exceptions.BadRequestException;
-import larionovoleksandr.gestioneeventi.payloads.NewUserDTO;
-import larionovoleksandr.gestioneeventi.payloads.NewUserResponceDTO;
+import larionovoleksandr.gestioneeventi.exceptions.NoMorePlacesException;
+import larionovoleksandr.gestioneeventi.payloads.*;
 import larionovoleksandr.gestioneeventi.services.AuthService;
+import larionovoleksandr.gestioneeventi.services.EventService;
 import larionovoleksandr.gestioneeventi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
+import static larionovoleksandr.gestioneeventi.exceptions.ExceptionsHandler.newDateAndHour;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -22,6 +28,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private EventService eventService;
     @GetMapping("/me")
     public User getProfile(@AuthenticationPrincipal User currentUser){
         return currentUser;
@@ -46,6 +54,17 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{id}")
+    public AddedEventResponceDTO addEventParticipation(@PathVariable Long id, @RequestBody AddEventPayloadDTO payload){
+        Event event = eventService.findById(payload.id());
+        if (event.getActualParticipants() < event.getMaxNumberOfParticipants()) {
+            event.setActualParticipants(event.getActualParticipants() + 1);
+            userService.addEvent(id, event);
+            return new AddedEventResponceDTO("Your participation in the event " + event.getTitle() + " was successful");
+        } else {
+            throw  new NoMorePlacesException("No more places available at " + newDateAndHour());
+        }
+    }
     @GetMapping("/{id}")
     public User findById(@PathVariable Long id) {
         return userService.findById(id);

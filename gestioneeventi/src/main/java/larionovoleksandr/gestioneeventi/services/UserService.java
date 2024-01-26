@@ -1,5 +1,6 @@
 package larionovoleksandr.gestioneeventi.services;
 
+import larionovoleksandr.gestioneeventi.entities.Event;
 import larionovoleksandr.gestioneeventi.entities.User;
 import larionovoleksandr.gestioneeventi.exceptions.NotFoundException;
 import larionovoleksandr.gestioneeventi.repositories.UserDAO;
@@ -36,6 +37,14 @@ public class UserService {
         found.setName(body.getName());
         found.setSurname(body.getSurname());
         found.setEmail(body.getEmail());
+
+        return userDAO.save(found);
+    }
+    public User addEvent(Long id, Event event){
+        User found = this.findById(id);
+        found.setId(id);
+        found.addEvent(event);
+        found.setEventBooked(found.getEventBooked());
         return userDAO.save(found);
     }
     public User findByEmail(String email) throws NotFoundException {
