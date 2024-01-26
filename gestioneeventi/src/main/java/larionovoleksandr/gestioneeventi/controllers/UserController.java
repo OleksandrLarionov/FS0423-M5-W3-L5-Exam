@@ -31,11 +31,12 @@ public class UserController {
     private AuthService authService;
     @Autowired
     private EventService eventService;
+    @PreAuthorize("hasAnyAuthority('EVENT_MANAGER','USER')")
     @GetMapping("/me")
     public User getProfile(@AuthenticationPrincipal User currentUser){
         return currentUser;
     }
-
+    @PreAuthorize("hasAnyAuthority('EVENT_MANAGER','USER')")
     @GetMapping("/me/eventList")
     public List<Event> getUserEventList(@AuthenticationPrincipal User currentUser) {
         return currentUser.getEventBooked();
@@ -61,6 +62,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('EVENT_MANAGER','USER')")
     public AddedEventResponceDTO addEventParticipation(@PathVariable Long id, @RequestBody AddEventPayloadDTO payload){
         Event event = eventService.findById(payload.id());
         if (event.getActualParticipants() < event.getMaxNumberOfParticipants()) {
@@ -72,6 +74,7 @@ public class UserController {
         }
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('EVENT_MANAGER','USER')")
     public User findById(@PathVariable Long id) {
         return userService.findById(id);
     }
