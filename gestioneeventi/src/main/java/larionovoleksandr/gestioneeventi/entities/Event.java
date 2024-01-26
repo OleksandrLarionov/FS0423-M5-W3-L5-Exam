@@ -3,6 +3,7 @@ package larionovoleksandr.gestioneeventi.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "event")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Event {
     @Id
     private Long id;
@@ -20,6 +22,8 @@ public class Event {
     private String description;
     private LocalDate date;
     private String eventImage;
+    private int maxNumberOfParticipants;
+    private int actualParticipants;
 
     @ManyToMany
     @JoinTable(
@@ -29,4 +33,12 @@ public class Event {
     )
     private List<User> participants;
 
+    public Event(String title, String place, String description, LocalDate date, int maxNumberOfParticipants) {
+        this.title = title;
+        this.place = place;
+        this.description = description;
+        this.date = date;
+        this.maxNumberOfParticipants = maxNumberOfParticipants;
+        this.actualParticipants = 0;
+    }
 }

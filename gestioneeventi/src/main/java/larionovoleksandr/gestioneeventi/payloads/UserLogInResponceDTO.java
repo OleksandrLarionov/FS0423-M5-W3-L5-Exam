@@ -1,4 +1,4 @@
 package larionovoleksandr.gestioneeventi.payloads;
 
-public record UserResponceDTO(String token) {
+public record UserLogInResponceDTO(String token) {
 }
