@@ -1,6 +1,7 @@
 package larionovoleksandr.gestioneeventi.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"participants"})
+//@JsonIgnoreProperties({"participants"})
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class Event {
     private String eventImage;
     private int maxNumberOfParticipants;
     private int actualParticipants;
-
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "user_event",

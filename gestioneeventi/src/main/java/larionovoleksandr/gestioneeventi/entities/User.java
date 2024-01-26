@@ -1,6 +1,7 @@
 package larionovoleksandr.gestioneeventi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import larionovoleksandr.gestioneeventi.ROLE;
 import larionovoleksandr.gestioneeventi.services.EventService;
@@ -22,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "user")
 @Entity
-@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired", "username","role","eventBooked"})
+@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired", "username","role"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +35,8 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private ROLE role;
-
-    @ManyToMany
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_event",
             joinColumns = @JoinColumn(name = "user_id"),

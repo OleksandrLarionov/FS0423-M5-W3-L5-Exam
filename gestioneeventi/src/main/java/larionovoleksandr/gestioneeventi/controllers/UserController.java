@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static larionovoleksandr.gestioneeventi.exceptions.ExceptionsHandler.newDateAndHour;
 
@@ -33,6 +34,11 @@ public class UserController {
     @GetMapping("/me")
     public User getProfile(@AuthenticationPrincipal User currentUser){
         return currentUser;
+    }
+
+    @GetMapping("/me/eventList")
+    public List<Event> getUserEventList(@AuthenticationPrincipal User currentUser) {
+        return currentUser.getEventBooked();
     }
 
     @GetMapping
