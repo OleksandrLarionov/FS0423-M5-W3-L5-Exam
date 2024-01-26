@@ -2,6 +2,7 @@ package larionovoleksandr.gestioneeventi.services;
 
 import larionovoleksandr.gestioneeventi.entities.Event;
 import larionovoleksandr.gestioneeventi.exceptions.NotFoundException;
+import larionovoleksandr.gestioneeventi.payloads.NewEventDTO;
 import larionovoleksandr.gestioneeventi.repositories.EventDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,14 @@ public class EventService {
     }
 
 
-    public Event saveDevice(Event body) {
-        return eventDAO.save(body);
+    public Event saveEvent(NewEventDTO body) {
+        Event newEvent = new Event();
+        newEvent.setTitle(body.title());
+        newEvent.setPlace(body.place());
+        newEvent.setDescription(body.description());
+        newEvent.setDate(body.date());
+        newEvent.setMaxNumberOfParticipants(body.maxNumberOfParticipants());
+        return eventDAO.save(newEvent);
     }
 
     public Event findById(Long id) {
