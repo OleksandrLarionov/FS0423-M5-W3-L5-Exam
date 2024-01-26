@@ -1,6 +1,6 @@
 package larionovoleksandr.gestioneeventi;
 
 public enum ROLE {
-    ADMIN,
+    EVENT_MANAGER,
     USER
 }

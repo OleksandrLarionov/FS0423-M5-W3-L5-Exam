@@ -1,5 +1,6 @@
 package larionovoleksandr.gestioneeventi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import larionovoleksandr.gestioneeventi.ROLE;
@@ -32,6 +33,14 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private ROLE role;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_event",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> eventBooked;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
