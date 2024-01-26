@@ -62,7 +62,7 @@ public class UserController {
             userService.addEvent(id, event);
             return new AddedEventResponceDTO("Your participation in the event " + event.getTitle() + " was successful");
         } else {
-            throw  new NoMorePlacesException("No more places available at " + newDateAndHour());
+            throw  new NoMorePlacesException("No more places available at ");
         }
     }
     @GetMapping("/{id}")

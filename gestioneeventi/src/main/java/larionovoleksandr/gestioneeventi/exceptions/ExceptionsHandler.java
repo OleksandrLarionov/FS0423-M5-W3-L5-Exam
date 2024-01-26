@@ -45,6 +45,11 @@ public class ExceptionsHandler {
 		return new ErrorsDTO(ex.getMessage(),newDateAndHour());
 	}
 
+	@ExceptionHandler(NoMorePlacesException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public ErrorsDTO NoMorePlacesException(NoMorePlacesException ex){return new ErrorsDTO(ex.getMessage(), newDateAndHour());};
+
+
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ErrorsDTO handleGenericError(Exception ex) {

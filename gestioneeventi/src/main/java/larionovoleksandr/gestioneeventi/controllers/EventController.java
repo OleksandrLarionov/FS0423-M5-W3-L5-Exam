@@ -13,6 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/events")
@@ -52,5 +55,11 @@ public class EventController {
     @PreAuthorize("hasAuthority('EVENT_MANAGER')")
     public void findByIdAndDelete(@PathVariable Long id) {
         eventService.delete(id);
+    }
+
+    @PostMapping("/{eventId}/upload")
+    @PreAuthorize("hasAuthority('EVENT_MANAGER')")
+    public String uploadEventImage(@RequestParam("EventImage") MultipartFile file, @PathVariable(required = true) Long eventId) throws IOException {
+        return eventService.uploadPicture(file,eventId);
     }
 }
