@@ -22,7 +22,7 @@ public class EventController {
     @Autowired
     private AuthService authService;
     @GetMapping
-    @PreAuthorize("hasAuthority('EVENT_MANAGER','USER')")
+    @PreAuthorize("hasAnyAuthority('EVENT_MANAGER','USER')")
     public Page<Event> getEvents(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size,
                                @RequestParam(defaultValue = "id") String orderBy) {

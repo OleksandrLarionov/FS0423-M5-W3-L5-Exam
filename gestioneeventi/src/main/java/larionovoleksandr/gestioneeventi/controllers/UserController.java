@@ -54,7 +54,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('EVENT_MANAGER','USER')")
+    @PreAuthorize("hasAnyAuthority('EVENT_MANAGER','USER')")
     public void findByIdAndDelete(@PathVariable Long id) {
         userService.delete(id);
     }

@@ -1,6 +1,5 @@
 package larionovoleksandr.gestioneeventi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import larionovoleksandr.gestioneeventi.ROLE;
@@ -21,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "user")
 @Entity
-@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired", "username","role","deviceList"})
+@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired", "username","role","eventBooked"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +44,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
-    
+
     @Override
     public String getUsername() {
         return this.email;
